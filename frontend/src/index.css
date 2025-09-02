@@ -16,7 +16,20 @@
 /* Reset margin, but use Tailwind for layout */
 body {
   margin: 0;
+  padding: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: #27272a;
+  background: #1f2937;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  background: #1f2937;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: #1f2937 !important;
 }

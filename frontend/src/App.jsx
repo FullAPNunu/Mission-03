@@ -32,10 +32,13 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-gray-800">
-      <div className="max-w-2xl mx-auto my-8 font-sans">
-        <h1 className="text-5xl font-bold mb-6 text-white text-center">
-          Turner's AI Interviewer
-        </h1>
+      <div className="max-w-2xl mx-auto my-8 ">
+        {/* Title block with primary color */}
+        <div className="mb-6">
+          <div className="rounded-xl bg-primary text-white text-center py-6 shadow-lg">
+            <h1 className="text-5xl font-bold m-0">Turner's AI Interviewer</h1>
+          </div>
+        </div>
 
         {/* Job title input */}
         <label className="block mb-4 text-white">
@@ -44,7 +47,7 @@ export default function App() {
             value={jobTitle}
             onChange={(e) => setJobTitle(e.target.value)}
             placeholder="e.g., Junior Developer"
-            className="input input-bordered input-lg w-80 bg-gray-100 text-gray-800 rounded-xl"
+            className="input input-bordered input-lg w-80 bg-gray-100 text-gray-800 text-primary font-bold rounded-xl"
           />
         </label>
 
@@ -52,7 +55,9 @@ export default function App() {
         <div className="border rounded-lg p-6 h-96 min-h-[400px] overflow-y-auto bg-white my-8 shadow-lg text-lg text-black">
           {log.map((m, i) => (
             <div key={i} className="mb-2">
-              <strong>
+              <strong
+                className={m.role === "user" ? "text-primary" : "text-black"}
+              >
                 {m.role === "interviewer" ? "Interviewer" : "Me"}:
               </strong>{" "}
               {m.text}
