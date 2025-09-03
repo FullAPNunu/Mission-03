@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 
 export default function App() {
   // UI state
@@ -9,6 +10,8 @@ export default function App() {
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const chatContainerRef = useRef(null);
+  const lastMessageRef = useRef(null);
 
   // ---- constants ----
   const MODEL = "gemini-2.5-flash";
@@ -21,6 +24,16 @@ export default function App() {
     [log]
   );
   const reachedLimit = qCount >= MAX_QUESTIONS;
+
+  // Scroll to Top of the latest message when log changes
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [log]);
 
   // Map our UI log -> backend "messages" format with dynamic instruction
   function toBackendMessages(uiLog, nextUserText) {
@@ -132,10 +145,14 @@ export default function App() {
         </label>
 
         {/* Conversation Log */}
-        <div className="h-96 min-h-[400px] overflow-y-auto bg-white my-4 shadow-lg text-lg p-4 rounded-lg flex flex-col gap-2">
+        <div
+          ref={chatContainerRef}
+          className="h-96 min-h-[400px] overflow-y-auto bg-white my-4 shadow-lg text-lg p-4 rounded-lg flex flex-col gap-2"
+        >
           {log.map((m, i) => (
             <div
               key={i}
+              ref={i === log.length - 1 ? lastMessageRef : null}
               className={`chat ${
                 m.role === "user" ? "chat-end" : "chat-start"
               }`}
@@ -150,7 +167,7 @@ export default function App() {
                 <span className="font-bold mr-2">
                   {m.role === "interviewer" ? "Interviewer" : "Me"}:
                 </span>
-                {m.text}
+                <ReactMarkdown>{m.text}</ReactMarkdown>
               </div>
             </div>
           ))}
@@ -170,7 +187,7 @@ export default function App() {
             onChange={(e) => setAnswer(e.target.value)}
             placeholder={
               reachedLimit
-                ? "Interview complete. Click Finalize to get the evaluation, or Restart."
+                ? "Interview completed! Click Restart to begin a new interview."
                 : "Type your answer…"
             }
             className="textarea textarea-primary textarea-lg flex-1 bg-gray-100 text-gray-800 rounded-xl"
