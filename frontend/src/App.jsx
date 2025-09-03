@@ -13,7 +13,7 @@ export default function App() {
   // ---- constants ----
   const MODEL = "gemini-2.5-flash";
   const API_URL = "http://localhost:5050/interview"; // use "/interview" if proxying via Vite
-  const MAX_QUESTIONS = 6;
+  const MAX_QUESTIONS = 7;
 
   // Count interviewer questions
   const qCount = useMemo(
@@ -29,11 +29,12 @@ export default function App() {
       content:
         `You are an expert interviewer for the role: ${jobTitle}.\n` +
         `Questions asked so far: ${qCount}.\n` +
-        (qCount < MAX_QUESTIONS
+        (qCount < 6
           ? [
               `- Ask exactly ONE new, targeted question next.`,
               `- Keep it 1–2 sentences, no preamble.`,
               `- Adapt to the user's latest answer and ${jobTitle} competencies.`,
+              `- If you have asked ${MAX_QUESTIONS} questions already, say "Thank you for your time. Let's proceed to the final evaluation."`,
             ].join("\n")
           : [
               `- Do NOT ask any more questions.`,
