@@ -47,20 +47,32 @@ export default function App() {
             value={jobTitle}
             onChange={(e) => setJobTitle(e.target.value)}
             placeholder="e.g., Junior Developer"
-            className="input input-bordered input-lg w-80 bg-gray-100 text-gray-800 text-primary font-bold rounded-xl"
+            className="input input-bordered input-primary input-lg w-80 bg-gray-100 text-gray-800 text-primary font-bold rounded-xl"
           />
         </label>
 
-        {/* Conversation Log display */}
-        <div className="border rounded-lg p-6 h-96 min-h-[400px] overflow-y-auto bg-white my-8 shadow-lg text-lg text-black">
+        {/* Conversation Log display with chat bubbles */}
+
+        <div className="h-96 min-h-[400px] overflow-y-auto bg-white my-8 shadow-lg text-lg p-4 rounded-lg flex flex-col gap-2">
           {log.map((m, i) => (
-            <div key={i} className="mb-2">
-              <strong
-                className={m.role === "user" ? "text-primary" : "text-black"}
+            <div
+              key={i}
+              className={`chat ${
+                m.role === "user" ? "chat-end" : "chat-start"
+              }`}
+            >
+              <div
+                className={`chat-bubble ${
+                  m.role === "user"
+                    ? "bg-primary text-white"
+                    : "bg-gray-200 text-black"
+                }`}
               >
-                {m.role === "interviewer" ? "Interviewer" : "Me"}:
-              </strong>{" "}
-              {m.text}
+                <span className="font-bold mr-2">
+                  {m.role === "interviewer" ? "Interviewer" : "Me"}:
+                </span>
+                {m.text}
+              </div>
             </div>
           ))}
         </div>
