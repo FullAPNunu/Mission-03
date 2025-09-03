@@ -104,11 +104,20 @@ export default function App() {
             Turner&apos;s AI Interviewer
           </h1>
         </div>
-        {/* Progress Counter */}
-        <p className="text-center text-gray-300 mb-6">
-          Progress: <strong>{Math.min(qCount, MAX_QUESTIONS)}</strong> /{" "}
-          {MAX_QUESTIONS}
-        </p>
+
+        {/* Radial Progress Bar */}
+        <div className="flex justify-center mb-4">
+          <div
+            className="radial-progress text-primary"
+            style={{
+              "--value": (qCount / MAX_QUESTIONS) * 100,
+              "--size": "2.8rem",
+            }}
+            role="progressbar"
+          >
+            {Math.min(qCount, MAX_QUESTIONS)} / {MAX_QUESTIONS}
+          </div>
+        </div>
 
         {/* Job title input */}
         <label className="block mb-4 text-white">
