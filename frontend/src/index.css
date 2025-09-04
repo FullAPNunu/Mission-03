@@ -20,3 +20,14 @@ body {
   min-height: 100vh;
   background: #27272a;
 }
+
+html {
+  margin: 0;
+  padding: 0;
+  background: #27272a; /* matches your body background */
+}
+
+html,
+body {
+  background: #1f2937 !important;
+}
